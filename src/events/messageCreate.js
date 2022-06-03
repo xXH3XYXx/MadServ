@@ -1,7 +1,7 @@
 const prefix = "+"
 module.exports = {
 	name: "messageCreate",
-    once: true,
+    once: false,
 	execute(msg) {
         if(msg.author.bot) return
         if(!msg.content.startsWith(prefix)) return
@@ -11,6 +11,7 @@ module.exports = {
         const command = commandBody.toLowerCase()
         
         if (command === 'test') {
+            msg.reply("<@" + msg.author.id + ">");
             msg.reply('test')
         }
     }
