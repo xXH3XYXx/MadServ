@@ -1,5 +1,6 @@
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
+const { Client } = require("discord.js");
 require("dotenv").config();
 
 module.exports = {
@@ -7,6 +8,8 @@ module.exports = {
 	once: true,
 	execute(client, commands) {
 		console.log("MadServ is online.");
+		// Sets bot Presence status.
+		client.user.setPresence({ activities: [{ name: "MadServ", type: "WATCHING"}] })
 
 		const CLIENT_ID = client.user.id;
 
