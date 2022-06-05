@@ -33,7 +33,7 @@ module.exports = {
 					await rest.put(
 						Routes.applicationGuildCommands(CLIENT_ID, process.env.GUILD_ID),
 						{
-							body: commands,
+							body: commandsToRegister,
 						}
 					);
 				}
