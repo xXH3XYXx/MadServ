@@ -6,7 +6,22 @@ const DEFAULT_DOUBLE_MESSAGE = "Booo <author> you can't count twice in a row!";
 const parseFailureMessage = (failureMsg, msg) => {
   const regex = /<author>/i;
   return failureMsg.replace(regex, msg.author);
-}
+};
+
+const updateBrokenCount = (settings, msg, reply) => {
+  let breakerRole = msg.guild.roles.cache.find(role => role.name === settings.counter_breaker_role_name);
+  let curBreakerMember = msg.guild.members.cache.find(member => member.id === msg.author.id);
+  let prevBreakerMember = msg.guild.members.cache.find(member => member.id === settings.last_count_breaker_id);
+  if (prevBreakerMember) {
+    prevBreakerMember.roles.remove(breakerRole);
+  }
+  msg.client.channels.cache.get(msg.channelId).send(`${reply} Let's try this again starting with 1`);
+  curBreakerMember.roles.add(breakerRole);
+  settings.count = 0;
+  settings.last_counter_id = -1;
+  settings.last_count_breaker_id = msg.author.id;
+};
+
 module.exports = (msg) => {
   const nextCount = parseInt(msg.content, 10);
   
@@ -27,18 +42,46 @@ module.exports = (msg) => {
         if (nextCount === currentCount + 1) {
           settings.count++;
           settings.last_counter_id = msg.author.id;
-          msg.react(settings.counter_react_emoji || DEFAULT_REACTION);
+          switch (nextCount) {
+            case 13:
+              msg.react("🐈‍⬛");
+            case 21:
+              msg.react("🥂");
+              break;
+            case 42:
+              msg.react("🇱");
+              msg.react("🇮");
+              msg.react("🇫");
+              msg.react("🇪");
+              break;
+            case 51:
+              msg.react("👽");
+              break;
+            case 69:
+              msg.react("🇳");
+              msg.react("🇮");
+              msg.react("🇨");
+              msg.react("🇪");
+              msg.react("6️⃣");
+              msg.react("9️⃣");
+              break;
+            case 100:
+              msg.react("💯");
+              break;
+            case 556:
+              msg.react("🪄");
+              break;
+            default:
+              msg.react(settings.counter_react_emoji || DEFAULT_REACTION);
+              break;
+          }
         }
         else {
-          settings.count = 0;
-          settings.last_counter_id = -1;
-          msg.client.channels.cache.get(msg.channelId).send(`${parseFailureMessage(miscountMessage, msg)} Let's try this again starting with 1`);
+          updateBrokenCount(settings, msg, parseFailureMessage(miscountMessage, msg));
         }
       }
       else {
-        settings.count = 0;
-        settings.last_counter_id = -1;
-        msg.client.channels.cache.get(msg.channelId).send(`${parseFailureMessage(doubleCountMessage, msg)} Let's try this again starting with 1`);
+        updateBrokenCount(settings, msg, parseFailureMessage(doubleCountMessage, msg));
       }
 
       settings.save(err => {

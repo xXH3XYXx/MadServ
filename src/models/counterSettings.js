@@ -6,7 +6,8 @@ const CounterSettingsSchema = new mongoose.Schema({
   counter_miscount_message: String,
   counter_double_count_message: String,
   count: Number,
-  last_counter_id: String
+  last_counter_id: String,
+  last_count_breaker_id: String
 });
 
 module.exports = mongoose.model("CounterSettings", CounterSettingsSchema);
