@@ -1,5 +1,5 @@
 
-const CounterSettings = require('../models/CounterSettings');
+const CounterSettings = require('../models/counterSettings');
 
 module.exports = {
   registertgcounter: (interaction) => {
