@@ -1,5 +1,14 @@
 require("dotenv").config();
 const fs = require("fs");
+//---------------Express settings
+const express = require("express");
+const app = express();
+app.enable("trust proxy");
+app.set("etag", false);
+app.use(express.static(__dirname + "/dashbored"));
+app.set("views", __dirname);
+app.set("view engine", "ejs");
+//---------------Express settings end
 const Database = require("./src/config/Database.js");
 const { Client, Intents, Collection } = require("discord.js");
 const client = new Client({
@@ -25,7 +34,7 @@ const client = new Client({
 const db = new Database();
 const eventFiles = fs.readdirSync('./src/events').filter(file => file.endsWith('.js'));
 const commandFiles = fs.readdirSync("./src/commands").filter(file => file.endsWith(".js"));
-
+module.exports.client = client;
 db.connect();
 client.commands = new Collection();
 
@@ -41,6 +50,15 @@ for (let file of commandFiles) {
   }
 }
 
+let files = fs.readdirSync("./src/dashbored/public").filter(f => f.endsWith(".js"));
+files.forEach(f => {
+    const file = require(`./src/dashbored/public/${f}`);
+    if (file && file.name) {
+        app.get(file.name, file.run);
+        console.log(`[Dashbored] - loaded ${file.name}`);
+    }
+})
+
 for (const file of eventFiles) {
   const event = require(`./src/events/${file}`);
 
@@ -51,4 +69,10 @@ for (const file of eventFiles) {
   }
 }
 
+
+
+
+
 client.login(process.env.TOKEN);
+
+app.listen(process.env.PORT, () => console.log(`Loaded Dashboard listening on port:${process.env.PORT}`));

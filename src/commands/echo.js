@@ -9,10 +9,5 @@ module.exports = {
               .setName("message")
               .setDescription("The message to echo.")
               .setRequired(true)
-              ),
-    async execute(interation) {
-        interation.reply({
-            content: interation.options.getString("message")
-        });
-    }
+              )
 }

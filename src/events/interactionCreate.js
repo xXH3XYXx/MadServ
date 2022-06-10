@@ -1,3 +1,4 @@
+const EchoInteraction = require('../interactions/echo');
 module.exports = {
 	name: "interactionCreate",
 	async execute(interaction) {
@@ -33,7 +34,8 @@ module.exports = {
 						interaction.reply('You do not have permission to use this command!');
 						return;
 					}
-					break;
+				case 'echo':
+					EchoInteraction.execute(interaction);
 				default:
 					const command = interaction.client.commands.get(interaction.commandName);
 
