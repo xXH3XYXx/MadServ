@@ -1,4 +1,4 @@
-const CountdownSettings = require('../models/CountdownSettings');
+const CountdownSettings = require('../models/countdownSettings');
 
 module.exports = {
   add: (interaction) => {
