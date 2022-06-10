@@ -1,4 +1,4 @@
-const CounterSettings = require('../models/CounterSettings');
+const CounterSettings = require('../models/counterSettings');
 
 const DEFAULT_REACTION = "🥳";
 const DEFAULT_MISS_MESSAGE = "Booo <author> you can't count!";
