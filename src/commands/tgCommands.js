@@ -31,7 +31,7 @@ module.exports = {
           ))
       .addSubcommand(command =>
         command
-          .setName('updatetgcounter')
+          .setName('update')
           .setDescription('Update the current channel\'s TinyGnome Counter settings')
           .addStringOption(option => option
             .setName('counter_react_emoji')

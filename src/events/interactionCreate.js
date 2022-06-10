@@ -1,4 +1,10 @@
+
 const EchoInteraction = require('../interactions/echo');
+const { Permissions } = require('discord.js');
+const CounterInteractions = require('../interactions/counterInteractions');
+const CountdownInteractions = require('../interactions/countdownInteractions');
+
+
 module.exports = {
 	name: "interactionCreate",
 	async execute(interaction) {
