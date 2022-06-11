@@ -81,6 +81,24 @@ module.exports = {
               .setName('name')
               .setDescription('The name of the countdown to be deleted')
               .setRequired(true)
-          ))
+          )),
+    new SlashCommandBuilder()
+      .setName('tgweather')
+      .setDescription('View weather information')
+      .addIntegerOption(option => option
+        .setName('zip_code')
+        .setDescription('The zipcode to look up weather for')
+        .setRequired(false)
+      )
+      .addStringOption(option => option
+        .setName('location_name')
+        .setDescription('The location name to look up weather for')
+        .setRequired(false)
+      )
+      .addStringOption(option => option
+        .setName('degree_type')
+        .setDescription('The degree type to be used when displaying temprature information')
+        .setRequired(false)
+      )
   ]
 };

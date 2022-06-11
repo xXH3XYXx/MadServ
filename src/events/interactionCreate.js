@@ -1,8 +1,9 @@
 
-const EchoInteraction = require('../interactions/echo');
 const { Permissions } = require('discord.js');
-const CounterInteractions = require('../interactions/counterInteractions');
 const CountdownInteractions = require('../interactions/countdownInteractions');
+const CounterInteractions = require('../interactions/counterInteractions');
+const EchoInteraction = require('../interactions/echo');
+const WeatherInteractions = require('../interactions/weatherInteraction');
 
 
 module.exports = {
@@ -40,8 +41,13 @@ module.exports = {
 						interaction.reply('You do not have permission to use this command!');
 						return;
 					}
+					break;
+				case 'tgweather':
+					WeatherInteractions.search(interaction);
+					break;
 				case 'echo':
 					EchoInteraction.execute(interaction);
+					break;
 				default:
 					const command = interaction.client.commands.get(interaction.commandName);
 
